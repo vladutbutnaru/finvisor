@@ -16,6 +16,7 @@ import org.apache.commons.cli.ParseException;
 
 import ro.vladbutnaru.financeadvisor.io.ConsolePrinter;
 import ro.vladbutnaru.financeadvisor.storage.ObjectStorage;
+import ro.vladbutnaru.financeadvisor.utils.StatementReader;
 import ro.vladbutnaru.financeadvisor.web.ExchangeFetcher;
 
 public class FinVisorApp {
@@ -27,12 +28,17 @@ public class FinVisorApp {
 	public void run(String[] args) {
 
 		CommandLine line = parseArguments(args);
-
+		String statementFile = null;
+		if(line.hasOption("statement")) {
+			statementFile = line.getOptionValue("statement");
+			System.out.println("Statement file: " + statementFile);
+		}
+		
 		if (line.hasOption("filename")) {
 			String fileName = line.getOptionValue("filename");
-
+			
 			try {
-				entryPoint(fileName);
+				entryPoint(fileName, statementFile);
 			} catch (java.text.ParseException e) {
 				e.printStackTrace();
 			}
@@ -94,6 +100,7 @@ public class FinVisorApp {
 		Options options = new Options();
 
 		options.addOption("f", "filename", true, "personal financial data file");
+		options.addOption("s", "statement", true, "bank statement file");
 		return options;
 	}
 
@@ -108,9 +115,14 @@ public class FinVisorApp {
 		formatter.printHelp("JavaStatsEx", options, true);
 	}
 
-	private void entryPoint(String configurationFile) throws java.text.ParseException {
+	private void entryPoint(String configurationFile, String statementFile) throws java.text.ParseException {
 		ConsolePrinter.printWelcome();
 		ConsolePrinter.readConfiguration(configurationFile);
+		if(statementFile!=null) {
+			StatementReader.readStatement(statementFile);
+			
+		}
+		
 		boolean running = true;
 		ExchangeFetcher.fetchExchange();
 		while (running) {
