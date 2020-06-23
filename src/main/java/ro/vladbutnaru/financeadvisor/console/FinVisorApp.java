@@ -16,103 +16,103 @@ import org.apache.commons.cli.ParseException;
 
 import ro.vladbutnaru.financeadvisor.io.ConsolePrinter;
 import ro.vladbutnaru.financeadvisor.storage.ObjectStorage;
+import ro.vladbutnaru.financeadvisor.web.ExchangeFetcher;
 
 public class FinVisorApp {
-	  /**
-     * Runs the application
-     *
-     * @param args an array of String arguments to be parsed
-     */
-    public void run(String[] args) {
+	/**
+	 * Runs the application
+	 *
+	 * @param args an array of String arguments to be parsed
+	 */
+	public void run(String[] args) {
 
-        CommandLine line = parseArguments(args);
+		CommandLine line = parseArguments(args);
 
-        if (line.hasOption("filename")) {
-            String fileName = line.getOptionValue("filename");
-            
-            try {
+		if (line.hasOption("filename")) {
+			String fileName = line.getOptionValue("filename");
+
+			try {
 				entryPoint(fileName);
 			} catch (java.text.ParseException e) {
 				e.printStackTrace();
 			}
-            
 
-        } else {
-            printAppHelp();
-        }
-    }
+		} else {
+			printAppHelp();
+		}
+	}
 
-    /**
-     * Parses application arguments
-     *
-     * @param args application arguments
-     * @return <code>CommandLine</code> which represents a list of application
-     * arguments.
-     */
-    private CommandLine parseArguments(String[] args) {
+	/**
+	 * Parses application arguments
+	 *
+	 * @param args application arguments
+	 * @return <code>CommandLine</code> which represents a list of application
+	 *         arguments.
+	 */
+	private CommandLine parseArguments(String[] args) {
 
-        Options options = getOptions();
-        CommandLine line = null;
+		Options options = getOptions();
+		CommandLine line = null;
 
-        CommandLineParser parser = new DefaultParser();
+		CommandLineParser parser = new DefaultParser();
 
-        try {
-            line = parser.parse(options, args);
+		try {
+			line = parser.parse(options, args);
 
-        } catch (ParseException ex) {
+		} catch (ParseException ex) {
 
-            System.err.println("Failed to parse command line arguments");
-            System.err.println(ex.toString());
-            printAppHelp();
+			System.err.println("Failed to parse command line arguments");
+			System.err.println(ex.toString());
+			printAppHelp();
 
-            System.exit(1);
-        }
+			System.exit(1);
+		}
 
-        return line;
-    }
-    
-    /**
-     * Reads application data from a file
-     *
-     * @param fileName file of application data
-     * @return array of double values
-     */
-    private double[] readData(String fileName) {
+		return line;
+	}
 
-        double[] mydata = null;
+	/**
+	 * Reads application data from a file
+	 *
+	 * @param fileName file of application data
+	 * @return array of double values
+	 */
+	private double[] readData(String fileName) {
 
-        return mydata;
-    }
+		double[] mydata = null;
 
-    /**
-     * Generates application command line options
-     *
-     * @return application <code>Options</code>
-     */
-    private Options getOptions() {
+		return mydata;
+	}
 
-    	Options options = new Options();
+	/**
+	 * Generates application command line options
+	 *
+	 * @return application <code>Options</code>
+	 */
+	private Options getOptions() {
 
-        options.addOption("f", "filename", true, "personal financial data file");
-        return options;
-    }
+		Options options = new Options();
 
-    /**
-     * Prints application help
-     */
-    private void printAppHelp() {
+		options.addOption("f", "filename", true, "personal financial data file");
+		return options;
+	}
 
-        Options options = getOptions();
+	/**
+	 * Prints application help
+	 */
+	private void printAppHelp() {
 
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("JavaStatsEx", options, true);
-    }
+		Options options = getOptions();
 
+		HelpFormatter formatter = new HelpFormatter();
+		formatter.printHelp("JavaStatsEx", options, true);
+	}
 
-    private void entryPoint(String configurationFile) throws java.text.ParseException {
+	private void entryPoint(String configurationFile) throws java.text.ParseException {
 		ConsolePrinter.printWelcome();
 		ConsolePrinter.readConfiguration(configurationFile);
 		boolean running = true;
+		ExchangeFetcher.fetchExchange();
 		while (running) {
 			ConsolePrinter.printMenu();
 			int option = ConsolePrinter.readInt("Pick option: ");
@@ -132,7 +132,6 @@ public class FinVisorApp {
 				LocalDateTime now = LocalDateTime.now();
 				LocalDateTime wantedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-				
 				String leftAlignFormat = "| %-10s | %-4s |%n";
 				System.out.format("+-----------+-----------+%n");
 				System.out.format("| Month     | Balance   |%n");
@@ -148,8 +147,8 @@ public class FinVisorApp {
 				ConsolePrinter.showLine("At given date, you will have: " + startingBalance + " in your accounts");
 
 			}
-			
-			if(option == 2) {
+
+			if (option == 2) {
 				String dateString = ConsolePrinter.readDate("Target date: ");
 				double targetSum = ConsolePrinter.readDouble("Target economies: ");
 				double fixedPayments = ConsolePrinter.readDouble("Average fixed payments per month:");
@@ -161,20 +160,19 @@ public class FinVisorApp {
 				LocalDateTime now = LocalDateTime.now();
 				LocalDateTime wantedDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 				double startingBalance = ObjectStorage.configuration.getBalanceRon();
-				
-			
+
 				long daysBetween = ChronoUnit.DAYS.between(wantedDate, now);
 				for (LocalDateTime d = now; d.isBefore(wantedDate); d = d.plusMonths(1)) {
-					startingBalance += (float) (earningsPerMonth  - fixedPayments);
+					startingBalance += (float) (earningsPerMonth - fixedPayments);
 
 				}
-				
+
 				double dailySum = (targetSum - startingBalance) / daysBetween;
 
 				ConsolePrinter.showLine("You can spend up to: " + dailySum + " per day");
 			}
 		}
-    	
-    }
+
+	}
 
 }

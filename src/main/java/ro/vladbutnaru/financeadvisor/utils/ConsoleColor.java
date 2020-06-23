@@ -1,4 +1,4 @@
-package ro.vladbutnaru.financeadvisor.entities;
+package ro.vladbutnaru.financeadvisor.utils;
 
 public enum ConsoleColor {
     //Color end string, color reset
