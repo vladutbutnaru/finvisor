@@ -1,0 +1,8 @@
+ro/vladbutnaru/financeadvisor/entities/Configuration.class
+ro/vladbutnaru/financeadvisor/entities/ConsoleColor.class
+ro/vladbutnaru/financeadvisor/console/FinVisorApp.class
+ro/vladbutnaru/financeadvisor/entities/Spending.class
+ro/vladbutnaru/financeadvisor/storage/ObjectStorage.class
+ro/vladbutnaru/financeadvisor/io/ConsolePrinter.class
+ro/vladbutnaru/financeadvisor/logic/FutureProcessor.class
+ro/vladbutnaru/financeadvisor/App.class

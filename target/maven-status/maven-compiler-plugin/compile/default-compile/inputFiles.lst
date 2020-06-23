@@ -1,0 +1,8 @@
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/entities/Configuration.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/entities/ConsoleColor.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/App.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/entities/Spending.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/io/ConsolePrinter.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/console/FinVisorApp.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/storage/ObjectStorage.java
+/home/vlad/git/finvisor/src/main/java/ro/vladbutnaru/financeadvisor/logic/FutureProcessor.java
